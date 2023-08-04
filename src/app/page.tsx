@@ -32,25 +32,25 @@ export default function Home() {
   );
 
   return (
-    <main className="grid grid-cols-2 h-screen max-h-screen">
-      <div className="flex min-h-screen overflow-y-scroll scrollbar-thin scrollbar-thumb-slate-700 scrollbar-track-slate-800">
-        <CodeMirror
-          className="text-sm flex-1"
-          theme={githubDarkInit({
-            settings: {
-              background: "#0f172a",
-              gutterBackground: "#0f172a",
-              lineHighlight: "#1e293bb3",
-              selection: "#075985",
-              selectionMatch: "#075985",
-            },
-          })}
-          onChange={handleOnChange}
-          extensions={[javascript({ jsx: true, typescript: true })]}
-          minHeight="100%"
-        />
-      </div>
-      <div></div>
-    </main>
+    <section className="flex-1 flex overflow-hidden">
+      <CodeMirror
+        className="w-1/2 text-base"
+        theme={githubDarkInit({
+          settings: {
+            background: "#0f172a",
+            foreground: "#cbd5e1",
+            gutterBackground: "#0f172a",
+            gutterForeground: "#cbd5e1",
+            lineHighlight: "#1e293bb3",
+            selection: "#075985",
+            selectionMatch: "#075985",
+          },
+        })}
+        onChange={handleOnChange}
+        extensions={[javascript({ jsx: true, typescript: true })]}
+        height="100%"
+      />
+      <div className="w-1/2 overflow-auto scrollbar-thin scrollbar-thumb-slate-700 scrollbar-track-slate-800"></div>
+    </section>
   );
 }

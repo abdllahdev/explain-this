@@ -1,3 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.cm-scroller {
+  @apply overflow-scroll scrollbar-thin scrollbar-thumb-slate-700 scrollbar-track-slate-800;
+}

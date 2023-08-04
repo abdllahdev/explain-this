@@ -17,7 +17,17 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={cn("bg-slate-900", inter.className)}>{children}</body>
+      <body
+        className={cn(
+          "flex flex-col h-screen text-slate-300 bg-slate-900",
+          inter.className,
+        )}
+      >
+        <header className="flex p-4 px-8 text-xl font-black border-b-2 border-slate-800">
+          <a href="/">Explain.js</a>
+        </header>
+        {children}
+      </body>
     </html>
   );
 }
