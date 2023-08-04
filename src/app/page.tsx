@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import initSwc, { parse } from "@swc/wasm-web";
+import type { ViewUpdate } from "@codemirror/view";
 import CodeMirror from "@uiw/react-codemirror";
 import { githubDarkInit } from "@uiw/codemirror-theme-github";
 import { javascript } from "@codemirror/lang-javascript";
@@ -10,19 +11,25 @@ export default function Home() {
   const [initialized, setInitialized] = useState(false);
 
   useEffect(() => {
-    async function importAndRunSwcOnMount() {
+    async function runSwcOnMount() {
       await initSwc();
       setInitialized(true);
     }
-    importAndRunSwcOnMount();
+
+    runSwcOnMount();
   }, []);
 
-  const handleOnChange = useCallback((value: string) => {
-    const result = parse(value, {
-      syntax: "typescript",
-    });
-    console.log(result);
-  }, []);
+  const handleOnChange = useCallback(
+    async (value: string, viewUpdate: ViewUpdate) => {
+      if (initialized) {
+        const result = await parse(value, {
+          syntax: "typescript",
+        });
+        console.log(result);
+      }
+    },
+    [initialized],
+  );
 
   return (
     <main className="grid grid-cols-2 h-screen max-h-screen">
