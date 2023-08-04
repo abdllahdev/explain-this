@@ -40,7 +40,9 @@ export default function Home() {
             settings: {
               background: "#0f172a",
               gutterBackground: "#0f172a",
-              lineHighlight: "#1e293b",
+              lineHighlight: "#1e293bb3",
+              selection: "#075985",
+              selectionMatch: "#075985",
             },
           })}
           onChange={handleOnChange}
@@ -48,7 +50,7 @@ export default function Home() {
           minHeight="100%"
         />
       </div>
-      <div className="bg-slate-900"></div>
+      <div></div>
     </main>
   );
 }
