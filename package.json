@@ -1,5 +1,5 @@
 {
-  "name": "explain.js",
+  "name": "explain-this",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -7,8 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "lint-staged",
-    "prepare": "husky install",
-    "cm": "cz"
+    "commit": "git-cz",
+    "prepare": "husky install"
   },
   "dependencies": {
     "@codemirror/lang-javascript": "^6.1.9",
@@ -34,17 +34,22 @@
     "typescript": "5.1.6"
   },
   "devDependencies": {
+    "@commitlint/cli": "^17.6.7",
+    "@commitlint/config-conventional": "^17.6.7",
+    "@commitlint/cz-commitlint": "^17.6.7",
     "commitizen": "^4.3.0",
-    "cz-conventional-changelog": "^3.3.0",
     "eslint-config-prettier": "^8.10.0",
-    "eslint-plugin-prettier": "^5.0.0",
+    "eslint-plugin-jsx-a11y": "^6.7.1",
+    "eslint-plugin-simple-import-sort": "^10.0.0",
+    "eslint-plugin-tailwindcss": "^3.13.0",
     "husky": "^8.0.0",
     "lint-staged": "^13.2.3",
-    "prettier": "3.0.1"
+    "prettier": "3.0.1",
+    "prettier-plugin-tailwindcss": "^0.4.1"
   },
   "config": {
     "commitizen": {
-      "path": "./node_modules/cz-conventional-changelog"
+      "path": "@commitlint/cz-commitlint"
     }
   }
 }

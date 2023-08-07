@@ -1,7 +1,10 @@
-import { cn } from "@/utils";
-import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+
+import Header from "@/components/Header";
+import { cn } from "@/utils";
+
+import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,13 +22,11 @@ export default function RootLayout({
     <html lang="en">
       <body
         className={cn(
-          "flex flex-col h-screen text-slate-300 bg-slate-900",
-          inter.className,
+          "flex h-screen flex-col bg-neutral-900 text-slate-300",
+          inter.className
         )}
       >
-        <header className="flex p-4 px-8 text-xl font-black border-b-2 border-slate-800">
-          <a href="/">Explain.js</a>
-        </header>
+        <Header />
         {children}
       </body>
     </html>

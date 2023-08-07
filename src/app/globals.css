@@ -3,5 +3,5 @@
 @tailwind utilities;
 
 .cm-scroller {
-  @apply overflow-scroll scrollbar-thin scrollbar-thumb-slate-700 scrollbar-track-slate-800;
+  @apply overflow-scroll scrollbar-thin scrollbar-thumb-neutral-700 scrollbar-track-neutral-800;
 }
