@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 
-import Header from "@/components/Header";
-import { cn } from "@/utils";
+import { ThemeProvider } from "@/components/theme-provider";
+import { cn } from "@/lib/utils";
 
 import "./globals.css";
 
@@ -22,12 +22,13 @@ export default function RootLayout({
     <html lang="en">
       <body
         className={cn(
-          "flex h-screen flex-col bg-neutral-900 text-slate-300",
+          "flex h-screen flex-col text-slate-700 dark:text-slate-300",
           inter.className
         )}
       >
-        <Header />
-        {children}
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );
