@@ -3,7 +3,7 @@ import Link from "next/link";
 
 import { buttonVariants } from "@/components/ui/button";
 
-import { ModeToggle } from "./mode-toggle";
+import ThemeToggle from "./theme-toggle";
 
 export default function NavMenu() {
   return (
@@ -29,7 +29,7 @@ export default function NavMenu() {
       >
         <Github size={20} />
       </Link>
-      <ModeToggle />
+      <ThemeToggle />
     </div>
   );
 }
