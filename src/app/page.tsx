@@ -3,36 +3,52 @@
 import { useCallback, useEffect, useState } from "react";
 import { javascript } from "@codemirror/lang-javascript";
 import type { ViewUpdate } from "@codemirror/view";
-import initSwc, { parse } from "@swc/wasm-web";
+import initSwc, { type ModuleItem, parse } from "@swc/wasm-web";
 import { githubDarkInit } from "@uiw/codemirror-theme-github";
 import CodeMirror from "@uiw/react-codemirror";
 
+import FlowGraph from "@/components/flow-graph";
 import Loader from "@/components/loader";
 import NavMenu from "@/components/nav-menu";
 
 export default function Home() {
+  const initValue = `function printHelloWorld(name, msg) {
+  console.log(\`Hello, World \${name}\`);
+
+  function print(msg) {
+    console.log(msg)
+  }
+}
+`;
   const [initialized, setInitialized] = useState(false);
+  const [ast, setAst] = useState<ModuleItem[]>();
 
-  useEffect(() => {
-    async function runSwcOnMount() {
-      await initSwc();
-      setInitialized(true);
-    }
-
-    runSwcOnMount();
-  }, []);
-
-  const handleOnChange = useCallback(
-    async (value: string, viewUpdate: ViewUpdate) => {
+  const parseCode = useCallback(
+    async (value: string) => {
       if (initialized) {
         const result = await parse(value, {
-          syntax: "typescript",
+          syntax: "ecmascript",
         });
-        console.log(result);
+        console.log(result.body);
+        setAst(result.body);
       }
     },
     [initialized]
   );
+
+  useEffect(() => {
+    async function runSwcOnMount() {
+      await initSwc();
+      await parseCode(initValue);
+      setInitialized(true);
+    }
+
+    runSwcOnMount();
+  }, [initValue, parseCode]);
+
+  const handleOnChange = async (value: string, viewUpdate: ViewUpdate) => {
+    parseCode(value);
+  };
 
   return (
     <>
@@ -54,15 +70,17 @@ export default function Home() {
             onChange={handleOnChange}
             extensions={[javascript({ jsx: true, typescript: true })]}
             height="100%"
+            value={initValue}
           />
           <div className="relative flex w-2/3 items-center justify-center">
             <div className="absolute right-4 top-4 z-50">
               <NavMenu />
             </div>
+            {ast ? <FlowGraph ast={ast} /> : <Loader />}
           </div>
         </section>
       ) : (
-        <Loader />
+        <Loader title="Explain-This" />
       )}
     </>
   );
