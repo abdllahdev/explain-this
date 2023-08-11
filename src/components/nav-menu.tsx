@@ -8,7 +8,7 @@ import ThemeToggle from "./theme-toggle";
 export default function NavMenu() {
   return (
     <div className="flex items-center space-x-2">
-      <div className="flex h-10 items-center space-x-1 rounded-md border px-3 text-sm">
+      <div className="flex h-10 items-center space-x-1 rounded-md border bg-background px-3 text-sm">
         <h1 className="font-black">Explain-This</h1>
         <span>
           {"("}by{" "}
