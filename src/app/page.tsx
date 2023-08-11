@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
+import { ReactFlowProvider } from "reactflow";
 import { javascript } from "@codemirror/lang-javascript";
 import type { ViewUpdate } from "@codemirror/view";
 import initSwc, { type ModuleItem, parse } from "@swc/wasm-web";
@@ -76,7 +77,9 @@ export default function Home() {
             <div className="absolute right-4 top-4 z-50">
               <NavMenu />
             </div>
-            {ast ? <FlowGraph ast={ast} /> : <Loader />}
+            <ReactFlowProvider>
+              {ast ? <FlowGraph ast={ast} /> : <Loader />}
+            </ReactFlowProvider>
           </div>
         </section>
       ) : (
