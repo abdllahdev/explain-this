@@ -1,24 +1,33 @@
-import { useCallback, useEffect } from "react";
+import {
+  createRef,
+  MutableRefObject,
+  RefObject,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import {
   Edge,
   Node,
+  Position,
   useEdgesState,
   useNodesState,
   useReactFlow,
 } from "reactflow";
 import { ModuleItem } from "@swc/wasm-web";
-import ELK, { ElkNode } from "elkjs/lib/elk.bundled.js";
+import ELK, { ElkExtendedEdge, ElkNode } from "elkjs/lib/elk.bundled.js";
 
 const elk = new ELK();
 
 const defaultElkOptions = {
-  "elk.algorithm": "layered",
+  "elk.algorithm": "mrtree",
   "elk.layered.spacing.nodeNodeBetweenLayers": "100",
-  "elk.spacing.nodeNode": "80",
+  "elk.spacing.nodeNode": "50",
   "elk.direction": "DOWN",
 };
 
-async function createNodesAndEdges(ast: ModuleItem[]) {
+async function createElements(ast: ModuleItem[]) {
   const nodes: Node[] = [];
   const edges: Edge[] = [];
 
@@ -58,24 +67,23 @@ async function createNodesAndEdges(ast: ModuleItem[]) {
   }
 }
 
-async function getLayoutedElements(ast: ModuleItem[]) {
-  const NODE_WIDTH = 150;
-  const NODE_HEIGHT = 100;
-
+async function getLayoutedElements(nodes: Node[], edges: Edge[]) {
   try {
-    const { nodes, edges } = await createNodesAndEdges(ast);
-
     const graph: ElkNode = {
       id: "root",
       layoutOptions: defaultElkOptions,
       children: nodes.map((node) => ({
         ...node,
-        targetPosition: "top",
-        sourcePosition: "bottom",
-        width: NODE_WIDTH,
-        height: NODE_HEIGHT,
+        targetPosition: Position.Bottom,
+        sourcePosition: Position.Top,
+        width: 200,
+        height: 100,
       })),
-      edges,
+      edges: edges.map((edge) => ({
+        id: edge.id,
+        sources: [edge.source],
+        targets: [edge.target],
+      })),
     };
 
     try {
@@ -89,11 +97,19 @@ async function getLayoutedElements(ast: ModuleItem[]) {
 
       return {
         nodes:
-          children?.map((node) => ({
-            ...node,
-            position: { x: node.x, y: node.y },
+          children?.map(
+            (node) =>
+              ({
+                ...node,
+                position: { x: node.x, y: node.y },
+              }) as Node
+          ) || [],
+        edges:
+          edges?.map((edge) => ({
+            id: edge.id,
+            source: edge.sources[0],
+            target: edge.targets[0],
           })) || [],
-        edges: edges || [],
       };
     } catch (layoutError) {
       throw new Error(`Layouting error: ${layoutError}`);
@@ -103,30 +119,30 @@ async function getLayoutedElements(ast: ModuleItem[]) {
   }
 }
 
-export default function useFlow(ast: ModuleItem[]) {
+export function useCodeFlow(ast: ModuleItem[]) {
   const [nodes, setNodes, onNodesChange] = useNodesState([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
   const { fitView } = useReactFlow();
 
-  const handleChange = useCallback(
-    async (ast: ModuleItem[]) => {
-      try {
-        const { nodes, edges } = await getLayoutedElements(ast);
+  const handleChange = useCallback(async () => {
+    try {
+      const { nodes: newNodes, edges: newEdges } = await createElements(ast);
 
-        setNodes(nodes);
-        setEdges(edges);
+      const { nodes: layoutedNodes, edges: layoutedEdges } =
+        await getLayoutedElements(newNodes, newEdges);
 
-        window.requestAnimationFrame(() => fitView());
-      } catch (error) {
-        console.error(error);
-      }
-    },
-    [setNodes, setEdges, fitView]
-  );
+      setNodes(layoutedNodes);
+      setEdges(layoutedEdges);
+
+      window.requestAnimationFrame(() => fitView());
+    } catch (error) {
+      console.error(error);
+    }
+  }, [ast, setNodes, setEdges, fitView]);
 
   useEffect(() => {
-    handleChange(ast);
-  }, [ast, handleChange]);
+    handleChange();
+  }, [handleChange]);
 
   return { nodes, onNodesChange, edges, onEdgesChange };
 }

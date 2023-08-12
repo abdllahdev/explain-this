@@ -8,7 +8,7 @@ import initSwc, { type ModuleItem, parse } from "@swc/wasm-web";
 import { githubDarkInit } from "@uiw/codemirror-theme-github";
 import CodeMirror from "@uiw/react-codemirror";
 
-import FlowGraph from "@/components/flow-graph";
+import CodeFlow from "@/components/code-flow";
 import Loader from "@/components/loader";
 import NavMenu from "@/components/nav-menu";
 
@@ -30,7 +30,6 @@ export default function Home() {
         const result = await parse(value, {
           syntax: "ecmascript",
         });
-        console.log(result.body);
         setAst(result.body);
       }
     },
@@ -77,9 +76,7 @@ export default function Home() {
             <div className="absolute right-4 top-4 z-50">
               <NavMenu />
             </div>
-            <ReactFlowProvider>
-              {ast ? <FlowGraph ast={ast} /> : <Loader />}
-            </ReactFlowProvider>
+            {ast ? <CodeFlow ast={ast} /> : <Loader />}
           </div>
         </section>
       ) : (
