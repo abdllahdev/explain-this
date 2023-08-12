@@ -5,10 +5,11 @@ import ReactFlow, {
   BackgroundVariant,
   MiniMap,
   NodeTypes,
+  ReactFlowProvider,
 } from "reactflow";
 import { type ModuleItem } from "@swc/wasm-web";
 
-import useFlow from "@/hooks/useFlow";
+import { useCodeFlow } from "@/hooks/code-flow-hooks";
 
 import FunctionFlowNode from "./function-flow-node";
 
@@ -22,8 +23,8 @@ const nodeTypes: NodeTypes = {
   functionFlowNode: FunctionFlowNode,
 };
 
-export default function FlowGraph({ ast }: Props) {
-  const { nodes, onNodesChange, edges, onEdgesChange } = useFlow(ast);
+function CodeFlow({ ast }: Props) {
+  const { nodes, onNodesChange, edges, onEdgesChange } = useCodeFlow(ast);
 
   return (
     <div style={{ width: "100vw", height: "100vh" }}>
@@ -39,5 +40,13 @@ export default function FlowGraph({ ast }: Props) {
         <Background variant={BackgroundVariant.Dots} gap={12} size={1} />
       </ReactFlow>
     </div>
+  );
+}
+
+export default function CodeFlowWrapper({ ast }: Props) {
+  return (
+    <ReactFlowProvider>
+      <CodeFlow ast={ast}></CodeFlow>
+    </ReactFlowProvider>
   );
 }
