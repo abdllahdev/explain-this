@@ -1,7 +1,6 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import { ReactFlowProvider } from "reactflow";
 import { javascript } from "@codemirror/lang-javascript";
 import type { ViewUpdate } from "@codemirror/view";
 import initSwc, { type ModuleItem, parse } from "@swc/wasm-web";

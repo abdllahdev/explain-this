@@ -1,12 +1,4 @@
-import {
-  createRef,
-  MutableRefObject,
-  RefObject,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import { useCallback, useEffect } from "react";
 import {
   Edge,
   Node,
@@ -16,7 +8,7 @@ import {
   useReactFlow,
 } from "reactflow";
 import { ModuleItem } from "@swc/wasm-web";
-import ELK, { ElkExtendedEdge, ElkNode } from "elkjs/lib/elk.bundled.js";
+import ELK, { ElkNode } from "elkjs/lib/elk.bundled.js";
 
 const elk = new ELK();
 
