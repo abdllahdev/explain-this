@@ -1,3 +1,9 @@
+# Explain-This is an expremental web app for explaining code snippets
+
+The idea of this app is inspired by this <a href="https://x.com/ChShersh/status/1664179977196036096" target="_blank">tweet</a> from <a href="https://twitter.com/ChShersh" target="_blank">Dmitrii Kovanikov</a>
+
+> The development of this app is currently inactive. Part of it because I'm currently busy. Also, after getting a small working prototype, I didn't like what I'm seeing so I stopped. But, I will try to work on it again soon and release it as a vscode extension because that was my original plan.
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
