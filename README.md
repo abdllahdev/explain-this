@@ -1,4 +1,4 @@
-# Explain-This is an expremental web app for explaining code snippets
+# Explain-This is an expremental tool for explaining code snippets
 
 The idea of this app is inspired by this <a href="https://x.com/ChShersh/status/1664179977196036096" target="_blank">tweet</a> from <a href="https://twitter.com/ChShersh" target="_blank">Dmitrii Kovanikov</a>
 
